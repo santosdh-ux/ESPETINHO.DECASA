@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="pt-BR"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#14110f">
+<meta name="description" content="Cardápio de espetinhos, petiscos e bebidas">
+<title>Cardápio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#14110f;--p:#1d1815;--ln:#2f2823;--t:#f2eadf;--m:#a39687;--acc:#ff6a1a;--hh:#f5b942;
+ --pc:color-mix(in srgb,var(--acc) 80%,#fff);
+ --fd:"Bebas Neue","Arial Narrow","Roboto Condensed",Impact,sans-serif;--navh:64px}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--bg);color:var(--t);font:17px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);min-height:100vh;overflow-x:hidden}
+.wrap{max-width:600px;margin:0 auto;padding:0 16px}
+button,input{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--hh);outline-offset:2px}
+
+/* topo compacto: logo + nome */
+.top{display:flex;align-items:center;gap:14px;padding-top:22px;padding-bottom:6px}
+.logo{flex:0 0 68px;width:68px;height:68px;border-radius:50%;overflow:hidden;display:grid;place-items:center;font-size:32px;background:#000;border:3px solid var(--acc)}
+.logo img{width:100%;height:100%;object-fit:cover}
+h1{margin:0;font:400 clamp(32px,9.5vw,42px)/1 var(--fd);letter-spacing:.03em;overflow-wrap:break-word}
+.tag{margin:3px 0 0;color:var(--m);font-size:14px}.tag:empty{display:none}
+
+/* Happy Hour: faixa suave */
+#hh:empty{display:none}
+#hh{margin-top:14px}
+.hhb{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px 16px;border-radius:16px;background:color-mix(in srgb,var(--hh) 15%,var(--p));border:1px solid color-mix(in srgb,var(--hh) 45%,var(--ln))}
+.hhb b{display:block;font:400 28px/1 var(--fd);letter-spacing:.04em;color:var(--hh)}
+.hhb span{font-size:14px;color:var(--m)}
+.hhb .rest{flex:0 0 auto;padding:6px 12px;border-radius:99px;background:var(--hh);color:#2a1a05;font-weight:700;font-size:14px;white-space:nowrap}
+.hhb.w{background:color-mix(in srgb,#e5483f 18%,var(--p));border-color:color-mix(in srgb,#e5483f 55%,var(--ln))}
+.hhb.w b{color:#ff8a80}.hhb.w .rest{background:#e5483f;color:#fff}
+.hhq{display:flex;align-items:center;gap:8px;padding:11px 14px;border-radius:14px;border:1px solid var(--ln);background:var(--p);font-size:15px;color:var(--m)}
+.hhq b{color:var(--hh);font-weight:700}
+.sec.off .sh{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.fim{flex:0 0 auto;padding:5px 11px;border-radius:99px;background:#e5483f;color:#fff;font-weight:700;font-size:13px;white-space:nowrap}
+.hhaviso{margin:0;padding:12px 18px;border-bottom:1px solid var(--ln);background:color-mix(in srgb,#e5483f 14%,var(--p));color:#ffb3ad;font-size:15px}
+.hhaviso b{color:#ff8a80}
+.pr.off{color:var(--m);opacity:.7}
+
+/* categorias (fixas ao rolar) */
+.nav{position:sticky;top:0;z-index:5;margin-top:14px;background:var(--bg);border-bottom:1px solid var(--ln)}
+.chips{position:relative;display:flex;gap:8px;overflow-x:auto;padding:10px 16px;scrollbar-width:none;max-width:600px;margin:0 auto}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:0 0 auto;min-height:44px;padding:0 16px;border-radius:99px;border:1px solid var(--ln);background:var(--p);color:var(--m);font-weight:600;font-size:15px;cursor:pointer;white-space:nowrap}
+.chip.on{background:var(--acc);border-color:var(--acc);color:#1b0f06}
+.chip.hhc{border-color:color-mix(in srgb,var(--hh) 55%,var(--ln));color:var(--hh)}
+.chip.hhc.on{background:var(--hh);border-color:var(--hh);color:#2a1a05}
+
+/* busca */
+.busca{margin:16px 0 6px}
+.busca input{width:100%;min-height:50px;padding:0 16px;border-radius:14px;border:1px solid var(--ln);background:var(--p);-webkit-appearance:none;appearance:none}
+.busca input:focus{border-color:var(--acc);outline:0}
+.busca input::placeholder{color:var(--m)}
+
+/* cada categoria é um bloco separado */
+.sec{margin:16px 0 0;background:var(--p);border:1px solid var(--ln);border-radius:18px;overflow:hidden;scroll-margin-top:calc(var(--navh) + 6px)}
+.sh{padding:16px 18px 12px;background:linear-gradient(color-mix(in srgb,var(--acc) 13%,var(--p)),var(--p));border-bottom:1px solid var(--ln)}
+.sh h2{margin:0;font:400 31px/1 var(--fd);letter-spacing:.05em}
+.sh h2::after{content:"";display:block;width:38px;height:3px;margin-top:8px;border-radius:3px;background:var(--acc)}
+.sec.hh{border-color:color-mix(in srgb,var(--hh) 40%,var(--ln))}
+.sec.hh .sh{background:linear-gradient(color-mix(in srgb,var(--hh) 16%,var(--p)),var(--p))}
+.sec.hh .sh h2{color:var(--hh)}.sec.hh .sh h2::after{background:var(--hh)}
+ul{list-style:none;margin:0;padding:0}
+.it{display:flex;align-items:center;justify-content:space-between;gap:14px;min-height:54px;padding:10px 18px}
+.it+.it{border-top:1px solid var(--ln)}
+.nm{min-width:0;font-weight:600;overflow-wrap:break-word}
+.pr{flex:0 0 auto;font-weight:700;font-size:18px;font-variant-numeric:tabular-nums;color:var(--pc);white-space:nowrap;text-align:right}
+.pr s{display:block;color:var(--m);font-size:13px;font-weight:500;line-height:1.1}
+.pr.promo{color:var(--hh)}
+.ph{flex:0 0 52px;width:52px;height:52px;border-radius:10px;background:var(--bg) center/cover no-repeat;border:1px solid var(--ln)}
+.it.cf{justify-content:flex-start}.it.cf .nm{flex:1}
+
+.vazio,.erro{margin:30px 0;padding:22px;border-radius:16px;background:var(--p);border:1px solid var(--ln);text-align:center;color:var(--m)}
+.erro button{margin-top:12px;min-height:48px;padding:0 22px;border-radius:12px;border:0;background:var(--acc);color:#1b0f06;font-weight:700;cursor:pointer}
+.aviso{margin:10px 0 0;color:var(--m);font-size:14px}.aviso:empty{display:none}
+footer{margin:26px 0 30px;color:var(--m);font-size:13px;text-align:center}
+</style></head><body>
+<header class="wrap top"><span class="logo" id="lg">🍢</span><div><h1 id="nome">Cardápio</h1><p class="tag" id="tag"></p></div></header>
+<div class="wrap" id="hh"></div>
+<div class="nav" id="nav"><div class="chips" id="chips"></div></div>
+<main class="wrap">
+  <div class="busca"><input id="q" type="search" placeholder="Buscar no cardápio" autocomplete="off" aria-label="Buscar no cardápio"></div>
+  <div id="aviso" class="aviso"></div>
+  <div id="lista"><p class="vazio">Carregando cardápio…</p></div>
+  <footer id="rod"></footer>
+</main>
+<noscript><p style="padding:20px">Ative o JavaScript para ver o cardápio.</p></noscript>
+<script>
+/* ===== CONFIGURAÇÃO ===== */
+const PID="espetinho-pedidos-jp",KEY="AIzaSyA0JWR3EyD6WnPLkycruhW9k0f6_kL8HK8";
+const BASE="https://firestore.googleapis.com/v1/projects/"+PID+"/databases/(default)/documents/";
+const TTL=20*60*1000;   // o celular reaproveita o cardápio salvo por 20 min antes de ler de novo (cada leitura de verdade = 1 leitura do Firebase)
+const FOTOS=false;      // true = mostra fotos dos produtos (cada foto gasta 1 leitura por aparelho, só na 1ª vez)
+const SLOGAN="O melhor da cidade";   // frase abaixo do nome ("" para esconder)
+
+/* ===== utilidades ===== */
+const $=s=>document.querySelector(s),
+ esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])),
+ money=n=>n.toLocaleString("pt-BR",{style:"currency",currency:"BRL"}),
+ nz=s=>String(s??"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase();
+let D=null,Q="",ERRO="",OFFLINE=false,ATIVO="",ultimo={l:"",c:"",h:""};
+
+/* ===== dados: UMA leitura (documento publico/cardapio), guardada no aparelho ===== */
+const CK="cardapio_cache_v1";
+const lerCache=()=>{try{return JSON.parse(localStorage.getItem(CK))}catch(e){return null}};
+const gravaCache=o=>{try{localStorage.setItem(CK,JSON.stringify(o))}catch(e){}};
+async function buscar(){
+ const ac=new AbortController(),t=setTimeout(()=>ac.abort(),12000);let r;
+ try{r=await fetch(BASE+"publico/cardapio?key="+KEY,{signal:ac.signal})}
+ catch(e){throw{msg:"Conexão lenta ou sem internet."}}finally{clearTimeout(t)}
+ if(r.status===404)throw{msg:"O cardápio ainda não foi publicado."};
+ if(!r.ok)throw{msg:"Não foi possível carregar o cardápio ("+r.status+")."};
+ const f=(await r.json()).fields||{};
+ const d=JSON.parse(f.json.stringValue);d._ts=+(f.ts&&f.ts.integerValue)||0;return d}
+async function carregar(){
+ const c=lerCache();
+ if(c){D=c.d;mostrar();if(Date.now()-c.t<TTL)return}   // cópia recente: não lê nada do servidor
+ try{const d=await buscar();D=d;gravaCache({t:Date.now(),d});OFFLINE=false;ERRO=""}
+ catch(e){if(D)OFFLINE=true;else ERRO=e&&e.msg?e.msg:"Sem conexão com a internet."}
+ mostrar()}
+const tentar=()=>{ERRO="";$("#lista").innerHTML='<p class="vazio">Carregando cardápio…</p>';carregar()};
+
+/* ===== Happy Hour (calculado no aparelho, sem ler nada) ===== */
+const temHH=()=>!!D&&D.hhOn!==false&&(D.itens||[]).some(i=>i.hp>0);
+function hhInfo(){
+ if(!temHH())return null;
+ const m=s=>{const[a,b]=String(s).split(":");return(+a||0)*60+(+b||0)},
+  a=m(D.hhIni),b=m(D.hhFim),d=new Date(),n=d.getHours()*60+d.getMinutes();
+ if(a===b||!(a<b?n>=a&&n<b:n>=a||n<b))return null;
+ return{rest:((b-n)%1440+1440)%1440}}
+const fh=s=>{const[a,b]=String(s).split(":");return(+a||0)+"h"+(+b?String(+b).padStart(2,"0"):"")};
+function blocoHH(h){
+ if(!temHH())return"";
+ const faixa=esc(fh(D.hhIni))+" às "+esc(fh(D.hhFim));
+ if(!h)return`<div class="hhq">🍻 <span><b>O Happy Hour acabou.</b> Ele acontece todos os dias das ${faixa}</span></div>`;
+ const r=h.rest,t=r>=60?Math.floor(r/60)+"h"+String(r%60).padStart(2,"0"):r+" min";
+ return`<div class="hhb${r<=15?" w":""}"><div><b>Happy Hour</b><span>Todos os dias das ${faixa}</span></div><div class="rest">faltam ${t}</div></div>`}
+
+/* ===== fotos (opcional): cada foto é lida uma vez por aparelho e fica guardada ===== */
+const MEM={},PEND={};
+async function carregarFoto(id,f){
+ const k="cf_"+id+"_"+f;
+ if(MEM[k])return MEM[k];
+ try{const v=localStorage.getItem(k);if(v)return MEM[k]=v}catch(e){}
+ if(!PEND[k])PEND[k]=fetch(BASE+"fotos/"+id+"?key="+KEY).then(r=>r.ok?r.json():null).then(j=>{
+  const u=j&&j.fields&&j.fields.img&&j.fields.img.stringValue;if(!u)return"";
+  MEM[k]=u;
+  try{Object.keys(localStorage).filter(x=>x.startsWith("cf_"+id+"_")&&x!==k).forEach(x=>localStorage.removeItem(x));localStorage.setItem(k,u)}catch(e){}
+  return u}).catch(()=>"");
+ return PEND[k]}
+const ioFoto=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;ioFoto.unobserve(e.target);
+ const el=e.target;carregarFoto(el.dataset.id,el.dataset.f).then(u=>{if(u)el.style.backgroundImage="url("+u+")"})}),{rootMargin:"250px"});
+
+/* ===== tela ===== */
+function linha(i,hh,off){
+ const promo=hh&&i.hp>0,
+  pr=off&&i.hp>0?`<span class="pr off">${money(i.hp)}</span>`:promo?`<span class="pr promo"><s>${money(i.p)}</s>${money(i.hp)}</span>`:`<span class="pr">${money(i.p)}</span>`,
+  ph=FOTOS&&i.f?`<span class="ph" data-id="${esc(i.id)}" data-f="${esc(i.f)}"></span>`:"";
+ return`<li class="it${ph?" cf":""}">${ph}<span class="nm">${esc(i.n)}</span>${pr}</li>`}
+
+function mostrar(){
+ if(!D){
+  if(ERRO)$("#lista").innerHTML=`<div class="erro"><p style="margin:0">${esc(ERRO)}</p><button onclick="tentar()">Tentar de novo</button></div>`;
+  return}
+ if(D.cor)document.documentElement.style.setProperty("--acc",D.cor);
+ document.title=D.nome||"Cardápio";$("#nome").textContent=D.nome||"Cardápio";$("#tag").textContent=SLOGAN;
+ $("#lg").innerHTML=D.logo?`<img src="${esc(D.logo)}" alt="">`:"🍢";
+ const h=hhInfo(),q=nz(Q),mapa=new Map();
+ (D.itens||[]).forEach(i=>{if(q&&!nz(i.n+" "+i.c).includes(q))return;
+  if(!mapa.has(i.c))mapa.set(i.c,[]);mapa.get(i.c).push(i)});
+ const hhItens=temHH()&&!q?(D.itens||[]).filter(i=>i.hp>0):[],secs=[];
+ if(hhItens.length)secs.push({id:"hh",t:"Happy Hour",l:hhItens,hh:1,off:!h});
+ mapa.forEach((l,c)=>secs.push({id:"c"+secs.length,t:c,l,hh:0}));
+
+ const hb=blocoHH(h);if(ultimo.h!==hb){$("#hh").innerHTML=hb;ultimo.h=hb}
+
+ const ch=secs.map(s=>`<button class="chip${s.hh?" hhc":""}" data-t="s-${s.id}">${esc(s.t)}</button>`).join("");
+ if(ultimo.c!==ch){$("#chips").innerHTML=ch;ultimo.c=ch;
+  $("#chips").querySelectorAll(".chip").forEach(b=>b.onclick=()=>{const e=document.getElementById(b.dataset.t);e&&e.scrollIntoView({block:"start"})})}
+
+ const lista=secs.length?secs.map(s=>`<section class="sec${s.hh?" hh":""}${s.off?" off":""}" id="s-${s.id}"><div class="sh"><h2>${esc(s.t)}</h2>${s.off?'<span class="fim">Encerrado</span>':""}</div>${s.off?`<p class="hhaviso"><b>O Happy Hour acabou.</b> Estes preços voltam a valer todos os dias das ${esc(fh(D.hhIni))} às ${esc(fh(D.hhFim))}.</p>`:""}<ul>${s.l.map(i=>linha(i,!!h,s.off)).join("")}</ul></section>`).join(""):
+  `<p class="vazio">${q?"Nada encontrado para “"+esc(Q)+"”.":"O cardápio está vazio por enquanto."}</p>`;
+ if(ultimo.l!==lista){$("#lista").innerHTML=lista;ultimo.l=lista;
+  if(FOTOS)document.querySelectorAll(".ph").forEach(e=>ioFoto.observe(e))}
+ pintar();
+
+ $("#aviso").textContent=OFFLINE?"Sem conexão: mostrando a última versão salva.":"";
+ const dt=D._ts?new Date(D._ts):null;
+ $("#rod").textContent="Preços sujeitos a alteração"+(dt?" · atualizado em "+dt.toLocaleDateString("pt-BR",{day:"2-digit",month:"2-digit"})+" às "+dt.toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"}):"")}
+
+/* categoria da barra de cima acompanha a rolagem (calculado pela posição na tela: não pula categorias curtas) */
+function acompanhar(){
+ const ss=[...document.querySelectorAll(".sec")];if(!ss.length)return;
+ const nav=$("#nav").offsetHeight;document.documentElement.style.setProperty("--navh",nav+"px");
+ let cur=ss[0];for(const s of ss){if(s.getBoundingClientRect().top-nav-12<=0)cur=s;else break}
+ if(innerHeight+scrollY>=document.documentElement.scrollHeight-4)cur=ss[ss.length-1];   // chegou no fim da página
+ if(cur.id!==ATIVO){ATIVO=cur.id;pintar()}}
+function pintar(){
+ document.querySelectorAll(".chip").forEach(c=>{const on=c.dataset.t===ATIVO;
+  if(c.classList.contains("on")===on)return;c.classList.toggle("on",on);
+  if(on){const bx=$("#chips");bx.scrollTo({left:c.offsetLeft-(bx.clientWidth-c.offsetWidth)/2})}})}
+let rq=0;addEventListener("scroll",()=>{if(!rq)rq=requestAnimationFrame(()=>{rq=0;acompanhar()})},{passive:true});
+addEventListener("resize",acompanhar);
+
+$("#q").addEventListener("input",e=>{Q=e.target.value;ATIVO="";mostrar();acompanhar()});
+setInterval(()=>{if(D)mostrar()},30000);   // só recalcula o Happy Hour na tela, não lê nada
+document.addEventListener("visibilitychange",()=>{if(!document.hidden)carregar()});   // volta ao app: só lê de novo se a cópia tiver mais de 20 min
+carregar().then(acompanhar);
+</script></body></html>
